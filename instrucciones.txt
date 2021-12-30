@@ -1,0 +1,3 @@
+Antes de ejecutar el proyecto, abra este en VS code y con "CTRL + Ñ" 
+abrira un consola y ejecute el comando "npm install" para instalar 
+las dependencias necesarias para la ejecucion del proyecto.
