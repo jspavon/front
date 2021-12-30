@@ -1,0 +1,260 @@
+<section>
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="pstn breadcrumb">
+        <li class="breadcrumb-item">
+          <a><i class="uil uil-estate" aria-hidden="true"></i>Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Gestion Empleados</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<section class="pstngestion">
+  <div class="container">
+    <div class="content-section">
+
+      <div class="row mt-5 d-flex justify-content-between">
+        <div class="col-md-4">
+          <h3 style="margin-top: 25px;">Gestion Empleados</h3>
+        </div>
+        <div class="col-md-4 mt-4 align-items-end" >
+          <button id="btnCreateTypology"
+                  (click)="addEmployees()"
+                  pButton
+                  pRipple
+                  type="button"
+                  label="Crear"
+                  class="pstn_primario p-button-rounded w-100"
+                  *ngIf="isCreate">
+          </button>
+        </div>
+      </div>
+
+
+
+      <div class="row mt-5">
+        <div class="pstn_container container-fluid card">
+
+          <p-table  #dt
+            name="gridChannel"
+            [value]="objectList"
+            dataKey="cedula"
+            [paginator]="true"
+            [rows]="5"
+            paginatorPosition="bottom"
+            styleClass="p-datatable-customers"
+            currentPageReportTemplate="Total"
+            [rowsPerPageOptions]="[1,5,10,25,50,100]"
+            [globalFilterFields]="['cedula', 'nombres']">
+
+            <ng-template pTemplate="caption">
+              <div class="row">
+
+                <div class="col-md-4 p-0 row">
+                  <span style="text-align: left;">Total de empleados: {{objectList.length}}</span>
+                </div>
+                <div class="col-md-4 p-0 row">
+                  <span style="text-align: center;">Total salarios: {{salary | currency: 'COP ':number: '2.0-0'}} </span>
+                </div>
+
+                <div class="col-md-4 p-0 p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                 <span class="p-input-icon-left p-ml-auto">
+                    <i class="pi pi-search" aria-hidden="true"></i>
+                    <input pInputText
+                          type="text"
+                          (input)="dt.filterGlobal($event.target.value, 'contains')"
+                          placeholder="search" />
+                  </span>
+                </div>
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="cedula">
+                  <p-sortIcon field="cedula"></p-sortIcon>
+                  Cedula
+                </th>
+                <th pSortableColumn="nombres">
+                  <p-sortIcon field="nombres"></p-sortIcon>
+                  Nombre completo</th>
+                <th>Sexo</th>
+                <th>Fecha nacimiento</th>
+                <th>Edad a la fecha</th>
+                <th>Salario</th>
+                <th>Vacuna Covid</th>
+                <th>Acciones</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-object>
+              <tr>
+                <td>{{object.cedula}}</td>
+                <td>{{object.nombres}}</td>
+                <td>{{object.sexo ? 'Masculino' : 'Femenino'}}</td>
+                <td>{{object.fechaNacimiento | date: 'mediumDate' }}</td>
+                <td>{{object.edadALaFecha}}</td>
+                <td>{{object.salario | currency: 'COP ':number: '2.0-0' }}</td>
+                <td>
+                  {{object.vacuna ? 'Si' : 'No'}}
+                </td>
+                <td style="width: 10rem">
+                  <i id="editDomain"
+                     class="uil uil-edit Editar"
+                     (click)="editEmployees(object)"
+                     aria-hidden="true"></i>
+                  <i id="deleteDomain"
+                     class="uil uil-trash-alt eliminar"
+                     (click)="delete(object)"
+                     aria-hidden="true"></i>
+                </td>
+              </tr>
+            </ng-template>
+
+          </p-table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<p-dialog [(visible)]="viewModal"
+          header="{{ processTittle }} Empleado"
+          [modal]="true"
+          styleClass="p-fluid"
+          [breakpoints]="{'960px': '75vw', '640px': '50vw'}"
+          [style]="{width: '90vw'}">
+
+          <ng-template pTemplate="content" >
+            <form [formGroup]="formEmployees">
+              <div class="row" >
+                <div class="col-md-4">
+                  <label class="p-d-flex p-jc-between p-ai-center"><strong>Cedula</strong></label>
+
+                  <input pInputText type="text"
+                        [ngClass]="{'ng-invalid ng-dirty': cedulaFormControl.invalid && cedulaFormControl.touched}"
+                        formControlName="cedulaFormControl"
+                        placeholder="Cedula"
+                        class="p-d-flex p-jc-between p-ai-center" />
+                    <small id="cedulaValidator" class="p-error" *ngIf="formEmployees.controls['cedulaFormControl'].invalid &&
+                                                                          (formEmployees.controls['cedulaFormControl'].dirty ||
+                                                                          formEmployees.controls['cedulaFormControl'].touched)">
+                      <div *ngIf="cedulaFormControl.errors.required">* campo requerido.</div>
+                      <div *ngIf="cedulaFormControl.errors.minlength">* el campo no puede ser menor a 6.</div>
+                      <div *ngIf="cedulaFormControl.errors.maxlength">* el campo no puede ser mayor a 10.</div>
+                      <div *ngIf="cedulaFormControl.errors.pattern">* el campo solo permite numeros</div>
+
+                    </small>
+                </div>
+                <div class="col-md-4">
+                  <label class="p-d-flex p-jc-between p-ai-center"><strong>Nombres</strong></label>
+
+                  <input pInputText type="text"
+                        [ngClass]="{'ng-invalid ng-dirty': nombresFormControl.invalid && nombresFormControl.touched}"
+                        formControlName="nombresFormControl"
+                        placeholder="Nombres"
+                        class="p-d-flex p-jc-between p-ai-center" />
+                    <small id="nombreValidator" class="p-error" *ngIf="formEmployees.controls['nombresFormControl'].invalid &&
+                                                                          (formEmployees.controls['nombresFormControl'].dirty ||
+                                                                          formEmployees.controls['nombresFormControl'].touched)">
+                      <div *ngIf="nombresFormControl.errors.required">* campo requerido.</div>
+                      <div *ngIf="nombresFormControl.errors.minlength">* el campo no puede ser menor a 6.</div>
+                      <div *ngIf="nombresFormControl.errors.maxlength">* el campo no puede ser mayor a 10.</div>
+                      <div *ngIf="nombresFormControl.errors.pattern">* el campo solo permite caracteres</div>
+
+                    </small>
+                </div>
+                <div class="col-md-4">
+                  <label class="p-d-flex p-jc-between p-ai-center"><strong>Sexo</strong></label>
+                  <div>
+                    <p-inputSwitch id="switch-sexo"
+                      inputId="sexo"
+                      name="switch-sexo"
+                      formControlName="sexoFormControl"
+                      [(ngModel)]="sexo"
+                      (onChange)="changeStateSexo($event)">
+
+                    </p-inputSwitch>
+                    <label class="p-d-flex p-jc-between p-ai-center" style="margin: 10px;">  {{genero}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row maxHeigth">
+                  <div class="col-md-4">
+                    <label class="p-d-flex p-jc-between p-ai-center"><strong>Fecha Nacimiento</strong></label>
+                    <div class="col-md-4 bg-light text-dark"></div>
+                    <p-calendar [(ngModel)]="fechaNacimiento" dateFormat="mm-dd-yy" inputId="dateformat"
+                                formControlName="fechaNacimientoFormControl" [inline]="false"
+                                [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                [yearRange]="getYearRange()">
+                    </p-calendar>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="p-d-flex p-jc-between p-ai-center"><strong>Salario</strong></label>
+                    <input  pInputText type="text"
+                            [ngClass]="{'ng-invalid ng-dirty': salarioFormControl.invalid && salarioFormControl.touched}"
+                            formControlName="salarioFormControl"
+                            placeholder="Salario"
+                            class="p-d-flex p-jc-between p-ai-center" />
+                        <small id="salarioValidator" class="p-error" *ngIf="formEmployees.controls['salarioFormControl'].invalid &&
+                                                                              (formEmployees.controls['salarioFormControl'].dirty ||
+                                                                              formEmployees.controls['salarioFormControl'].touched)">
+                      <div *ngIf="salarioFormControl.errors.required">* campo requerido.</div>
+                      <div *ngIf="salarioFormControl.errors.minlength">* el campo no puede ser menor a 6.</div>
+                      <div *ngIf="salarioFormControl.errors.maxlength">* el campo no puede ser mayor a 10.</div>
+                      <div *ngIf="salarioFormControl.errors.pattern">* el campo solo permite numeros</div>
+
+                </small>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="p-d-flex p-jc-between p-ai-center"><strong>Vacuna Covid</strong></label>
+                    <div>
+                      <p-inputSwitch id="switch-vacuna"
+                        inputId="vacuna"
+                        name="switch-vacuna"
+                        formControlName="vacunaFormControl"
+                        [(ngModel)]="vacuna"
+                        (onChange)="changeStateVaccine($event)">
+                      </p-inputSwitch>
+                      <label class="p-d-flex p-jc-between p-ai-center" style="margin: 10px;">  {{vacunado}}</label>
+                    </div>
+                  </div>
+              </div>
+            </form>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <button id="btnCancelDomain"
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Cancelar"
+                    class="pstn_primario"
+                    style="background-color: darkgrey; border-color: darkgrey;"
+                    (click)="hideDialog()">
+            </button>
+            <button id="btnCreateDomain"
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Crear"
+                    class="pstn_primario"
+                    *ngIf="process == 1"
+                    (click)="create()">
+            </button>
+            <button id="btnUpdateDomain"
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Actualizar"
+                    class="pstn_primario"
+                    *ngIf="process == 2"
+                    (click)="update()">
+            </button>
+
+          </ng-template>
+
+</p-dialog>
+

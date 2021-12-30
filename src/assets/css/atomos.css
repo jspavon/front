@@ -1,0 +1,120 @@
+h1.pstntitle {
+  font-weight: bold;
+  font-size: 32px;
+  color: #2c2c2c;
+}
+
+label {
+  color: #2c2c2c;
+  font-weight: 600;
+}
+
+button.pstn_primario {
+  background: #009CDD;
+  border: none;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 50px;
+  border: 1px solid  #009CDD;
+  font-weight: 500;
+  font-family: 'Raleway', sans-serif;
+  width: 240px;
+}
+
+button.pstn_secundario {
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: 500;
+  border: 1px solid  #009CDD;
+  font-family: 'Raleway', sans-serif;
+  color: #009CDD;
+  width: 240px;
+  background-color: transparent;
+}
+
+button.pstn_primario_drag_and_drop {
+  background: #009CDD;
+  border: none;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 50px;
+  border: 1px solid  #009CDD;
+  font-weight: 500;
+  font-family: 'Raleway', sans-serif;
+
+}
+
+button.pstn_secundario_drag_and_drop {
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: 500;
+  border: 1px solid  #009CDD;
+  font-family: 'Raleway', sans-serif;
+  color: #009CDD;
+  background-color: transparent;
+}
+
+button.pstn_posponer_drag_and_drop {
+  padding: 10px 25px;
+  margin-bottom: 8px;
+  border-radius: 50px;
+  font-weight: 500;
+  font-family: 'Raleway', sans-serif;
+  border: none;
+  color: #ffffff;
+  background-color: #7C7D81;
+}
+
+button.pstn_terceario {
+  background: none;
+  border: solid 2px #a5a5a6;
+  color: #a5a5a6;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: 500;
+}
+
+button.pstn_aceptar{
+  background: #18c3540d;
+  border: solid 2px #18C353;
+  color: #18C353;
+  padding: 3px 18px;
+  border-radius: 50px;
+  font-weight: 600;
+  margin: 5px;
+}
+
+button.pstn_rechazar{
+  background: #e4002a09;
+  border: solid 2px #E4002B;
+  color: #E4002B;
+  padding: 3px 18px;
+  border-radius: 50px;
+  font-weight: 600;
+  margin: 5px;
+}
+
+button.pstn_posponer{
+  background: #7C7D81;
+  border: none;
+  color: #ffffff;
+  padding: 3px 18px;
+  border-radius: 50px;
+  font-weight: 600;
+  margin: 5px;
+}
+
+button.pstn_reintetar{
+  background: #18c3540d;
+  border: solid 2px #009CDD;
+  color: #009CDD;
+  padding: 3px 18px;
+  border-radius: 50px;
+  font-weight: 600;
+  margin: 5px;
+}
+
+h2.pstn_subtitle {
+  font-weight: bold;
+  font-size: 20px;
+}
